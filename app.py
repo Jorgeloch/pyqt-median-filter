@@ -40,8 +40,8 @@ class MainWindow (QMainWindow, Ui_MainWindow):
 
         filtered_image = mediana.mediana(gray_frame) # gerando a imagem filtrada a partir da imagem original usando a função da mediana
 
-        self.originalImage.setPixmap (self.convert_cv_qt(gray_frame.astype('uint8'))) # atrinuindo a imagem original com ruidos na label da esquerda
-        self.filteredImage.setPixmap (self.convert_cv_qt(filtered_image.astype('uint8'))) # atrubuindo a imagem filtrada pela mediana na label da direita
+        self.originalImage.setPixmap (self.convert_cv_qt(gray_frame)) # atrinuindo a imagem original com ruidos na label da esquerda
+        self.filteredImage.setPixmap (self.convert_cv_qt(filtered_image)) # atrubuindo a imagem filtrada pela mediana na label da direita
 
 app = QApplication(sys.argv)
 window = MainWindow()

@@ -2,18 +2,12 @@ import ctypes
 import numpy as np
 import numpy.ctypeslib as npct # interface do numpy com ctypes
 
-# definicao de tipos array 1d e 2d de double
-# este tipo de construcao eh incomum jah que Python eh tipada dinamicamente
-# mas eh necessario faze-lo pois C nao eh
+array_1d_uint8 = npct.ndpointer(dtype="uint8", ndim=1, flags='CONTIGUOUS')
 
-array_1d_int = npct.ndpointer(dtype="uint8", ndim=1, flags='CONTIGUOUS')
-# carga da biblioteca compartilhada
-# primeiro argumento -> nome do arquivo (.so, .dll ou .dylib)
-# segundo argumento -> path para sua localizacao
 libmediana = ctypes.cdll.LoadLibrary("./libmediana.so")
 # Definicao dos tipos dos argumentos e retornos da funcao
 libmediana.mediana.restype = None
-libmediana.mediana.argtypes = [array_1d_int, ctypes.c_int, ctypes.c_int, array_1d_int]
+libmediana.mediana.argtypes = [array_1d_uint8, ctypes.c_int, ctypes.c_int, array_1d_uint8]
 
 def mediana (matrix):
     if not isinstance (matrix,np.ndarray):
