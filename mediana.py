@@ -6,7 +6,7 @@ import numpy.ctypeslib as npct # interface do numpy com ctypes
 # este tipo de construcao eh incomum jah que Python eh tipada dinamicamente
 # mas eh necessario faze-lo pois C nao eh
 
-array_1d_int = npct.ndpointer(dtype=np.int, ndim=1, flags='CONTIGUOUS')
+array_1d_int = npct.ndpointer(dtype="uint8", ndim=1, flags='CONTIGUOUS')
 # carga da biblioteca compartilhada
 # primeiro argumento -> nome do arquivo (.so, .dll ou .dylib)
 # segundo argumento -> path para sua localizacao
@@ -20,9 +20,9 @@ def mediana (matrix):
         raise TypeError ('Use: mediana (numpy.ndarray)')
     if len (matrix.shape) != 2:
         raise TypeError ('Imagem de entrada deve possuir 2 dimensoes')
-    if not matrix.dtype == 'int':
-        matrix = matrix.astype('int')
+    if not matrix.dtype == 'uint8':
+        matrix = matrix.astype('uint8')
     rows, columns = matrix.shape
-    mediana = np.zeros ((rows,columns),dtype='int')
+    mediana = np.zeros ((rows,columns),dtype='uint8')
     libmediana.mediana (matrix.ravel(), rows, columns, mediana.ravel())
     return mediana

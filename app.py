@@ -30,39 +30,21 @@ class MainWindow (QMainWindow, Ui_MainWindow):
     def processar_frame(self):
         ret, frame = self.cap.read() # leitura de um frame do video
 
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # transforma a imagem colorida em uma imagem em grayscale
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype('uint8') # transforma a imagem colorida em uma imagem em grayscale
         noise = np.random.uniform (size=gray_frame.shape)
-        gray_frame[noise>.9] = 255 # noise salt
+
+        # aplicando o ruído sal e pimenta na imagem capturada pela webcam, para podermos comparar o resultado da mediana
+
+        gray_frame[noise>.9] = 255 # noise salt 
         gray_frame[noise<.1] = 0 # noise pepper
 
-        #filtered_image = np.zeros_like(gray_frame).astype('uint8') # criando imagem onde será armazenada a imagem filtrada
-        filtered_image = mediana.mediana(gray_frame.astype('int'))
+        filtered_image = mediana.mediana(gray_frame) # gerando a imagem filtrada a partir da imagem original usando a função da mediana
 
-        self.originalImage.setPixmap (self.convert_cv_qt(gray_frame.astype('uint8'))) # atribuicao do novo valor do pixmap do label
-        self.filteredImage.setPixmap (self.convert_cv_qt(filtered_image))
+        self.originalImage.setPixmap (self.convert_cv_qt(gray_frame.astype('uint8'))) # atrinuindo a imagem original com ruidos na label da esquerda
+        self.filteredImage.setPixmap (self.convert_cv_qt(filtered_image.astype('uint8'))) # atrubuindo a imagem filtrada pela mediana na label da direita
 
 app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
 
 app.exec_()
-
-# def main ():
-#     cam = camera().astype('int')
-#     noise = np.random.uniform (size=cam.shape)
-#     cam[noise>.9] = 255 # noise salt
-#     cam[noise<.1] = 0 # noise pepper
-#     # cam = cam/np.max(cam)
-#     n=cam.shape[0]
-#     # filtragem para remocao de ruidos
-#     cam_blur = mediana.mediana(cam)
-#     # impressao dos resultados
-#     _,ax = plt.subplots(1,2)
-#     ax[0].imshow(cam,cmap='gray')
-#     ax[1].imshow(cam_blur,cmap='gray')
-#     ax[0].set_title('Imagem Original')
-#     ax[1].set_title('Imagem Borrada')
-#     plt.savefig ('resultado.png')
-
-# if __name__=='__main__':
-#     main()
