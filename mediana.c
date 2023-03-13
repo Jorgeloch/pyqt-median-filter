@@ -34,6 +34,7 @@ void mediana (unsigned char *vetor, int rows, int columns, unsigned char *result
             mascara[0] = vetor[pos(columns, (i-1), (j-1))]; // definição dos valores da mascara onde será aplicada a ordenação para conseguirmos
             mascara[1] = vetor[pos(columns, (i), (j-1))];   // a mediana referente à vizinhança do pixel na posição (i,j) da imagem
             mascara[2] = vetor[pos(columns, (i+1), (j-1))]; 
+            
             mascara[3] = vetor[pos(columns, (i-1), (j))];
             mascara[4] = vetor[pos(columns, (i), (j))];
             mascara[5] = vetor[pos(columns, (i+1), (j))];

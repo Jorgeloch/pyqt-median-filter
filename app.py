@@ -31,8 +31,9 @@ class MainWindow (QMainWindow, Ui_MainWindow):
         ret, frame = self.cap.read() # leitura de um frame do video
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype('uint8') # transforma a imagem colorida em uma imagem em grayscale
+        gray_frame = cv2.flip(gray_frame, 1) #invertendo a imagem
         noise = np.random.uniform (size=gray_frame.shape)
-
+        
         # aplicando o ruído sal e pimenta na imagem capturada pela webcam, para podermos comparar o resultado da mediana
 
         gray_frame[noise>.9] = 255 # noise salt 
